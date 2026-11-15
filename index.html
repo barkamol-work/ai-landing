@@ -8,6 +8,7 @@
 <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#fafaf9" media="(prefers-color-scheme: light)">
 <script>
+  try { var l = localStorage.getItem('lang'); if (l === 'ru' || l === 'en') document.documentElement.lang = l; } catch (e) {}
   try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -121,6 +122,12 @@ a { color: inherit; }
   .theme-menu:not([hidden]) { animation: menu-in .14s ease-out; }
   @keyframes menu-in { from { opacity: 0; transform: translateY(-4px) scale(.98); } to { opacity: 1; transform: none; } }
 }
+
+
+/* language menu (reuses theme menu styles) */
+.lang { position: relative; }
+.lang-btn { width: auto; padding: 0 12px; font: 500 .78rem var(--font-mono); letter-spacing: .04em; }
+.lang-tag { display: inline-block; width: 24px; font: 500 .72rem var(--font-mono); color: var(--muted); }
 
 /* buttons */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 44px; padding: 0 20px; border-radius: 999px; font: 500 .95rem var(--font-sans); text-decoration: none; border: 1px solid transparent; cursor: pointer; transition: background-color .15s, border-color .15s, transform .15s; }
@@ -258,69 +265,77 @@ footer .wrap { padding-block: 32px; color: var(--subtle); font-size: .88rem; dis
   <nav class="nav wrap">
     <a class="logo" href="#top"><span>&gt;_</span>promptdan</a>
     <div class="nav-links">
-      <a href="#loyihalar">Loyihalar</a>
-      <a href="#jarayon">Jarayon</a>
-      <a href="#savollar">Savollar</a>
+      <a href="#loyihalar" data-i18n="nav.projects">Loyihalar</a>
+      <a href="#jarayon" data-i18n="nav.process">Jarayon</a>
+      <a href="#savollar" data-i18n="nav.faq">Savollar</a>
     </div>
     <div class="nav-actions">
-      <div class="theme">
-        <button class="theme-btn" id="theme-btn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="theme-menu" aria-label="Rejimni tanlash" data-mode="system"><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><svg class="i-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></button>
-        <ul class="theme-menu" id="theme-menu" role="menu" hidden>
-          <li role="none"><button role="menuitemradio" type="button" data-set="light" aria-checked="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Yorug'</button></li>
-          <li role="none"><button role="menuitemradio" type="button" data-set="dark" aria-checked="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>Tungi</button></li>
-          <li role="none"><button role="menuitemradio" type="button" data-set="system" aria-checked="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>Tizim bo'yicha</button></li>
+      <div class="lang">
+        <button class="theme-btn lang-btn" id="lang-btn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="lang-menu" aria-label="Til / Language / Язык"><span id="lang-code">UZ</span></button>
+        <ul class="theme-menu" id="lang-menu" role="menu" hidden>
+          <li role="none"><button role="menuitemradio" type="button" data-lang="uz" lang="uz" aria-checked="true"><span class="lang-tag">UZ</span>O'zbekcha</button></li>
+          <li role="none"><button role="menuitemradio" type="button" data-lang="ru" lang="ru" aria-checked="false"><span class="lang-tag">RU</span>Русский</button></li>
+          <li role="none"><button role="menuitemradio" type="button" data-lang="en" lang="en" aria-checked="false"><span class="lang-tag">EN</span>English</button></li>
         </ul>
       </div>
-      <a class="btn btn-primary btn-sm" href="#aloqa">Bog'lanish</a>
+      <div class="theme">
+        <button class="theme-btn" id="theme-btn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="theme-menu" aria-label="Rejimni tanlash" data-i18n-aria-label="theme.aria" data-mode="system"><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><svg class="i-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></button>
+        <ul class="theme-menu" id="theme-menu" role="menu" hidden>
+          <li role="none"><button role="menuitemradio" type="button" data-set="light" aria-checked="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span data-i18n="theme.light">Yorug'</span></button></li>
+          <li role="none"><button role="menuitemradio" type="button" data-set="dark" aria-checked="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><span data-i18n="theme.dark">Tungi</span></button></li>
+          <li role="none"><button role="menuitemradio" type="button" data-set="system" aria-checked="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span data-i18n="theme.system">Tizim bo'yicha</span></button></li>
+        </ul>
+      </div>
+      <a class="btn btn-primary btn-sm" href="#aloqa" data-i18n="nav.contact">Bog'lanish</a>
     </div>
   </nav>
 </div>
 
 <div class="wrap">
   <header class="hero" id="top">
-    <div class="pill"><i></i>Sun'iy intellekt bilan dasturlash</div>
-    <h1>G'oyangizni yozing. Biz uni <em>ishlaydigan dasturga</em> aylantiramiz.</h1>
-    <p class="lead">Veb-saytlar, Telegram botlar, CRM va to'lov tizimlari. Sun'iy intellekt kodni tez yozadi, tajribali muhandis esa har bir qatorni tekshiradi va ishga tushiradi.</p>
+    <div class="pill" data-i18n="hero.pill"><i></i>Sun'iy intellekt bilan dasturlash</div>
+    <h1 data-i18n="hero.title">G'oyangizni yozing. Biz uni <em>ishlaydigan dasturga</em> aylantiramiz.</h1>
+    <p class="lead" data-i18n="hero.lead">Veb-saytlar, Telegram botlar, CRM va to'lov tizimlari. Sun'iy intellekt kodni tez yozadi, tajribali muhandis esa har bir qatorni tekshiradi va ishga tushiradi.</p>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="#aloqa">Loyihani boshlash →</a>
-      <a class="btn btn-ghost" href="#loyihalar">Namunalarni ko'rish</a>
+      <a class="btn btn-primary" href="#aloqa" data-i18n="hero.cta">Loyihani boshlash →</a>
+      <a class="btn btn-ghost" href="#loyihalar" data-i18n="hero.cta2">Namunalarni ko'rish</a>
     </div>
 
-    <div class="term" aria-label="Prompt asosida dastur yaratish jarayoni namunasi">
+    <div class="term" aria-label="Prompt asosida dastur yaratish jarayoni namunasi" data-i18n-aria-label="term.aria">
       <div class="term-bar"><i></i><i></i><i></i><span>promptdan — build</span></div>
       <div class="term-body">
-        <p class="t-prompt"><b>&gt;</b> Do'konim uchun Telegram bot kerak: katalog, savat va Click orqali to'lov.</p>
-        <p class="t-dim">  talablar tahlil qilinmoqda…</p>
-        <p class="t-ok">✓ spetsifikatsiya: 6 ekran, 3 jadval</p>
-        <p class="t-ok">✓ kod yozildi: bot, admin panel, API</p>
-        <p class="t-ok">✓ 42 ta test o'tdi</p>
-        <p class="t-ok">✓ Click to'lov sandbox'da tekshirildi</p>
-        <p class="t-prompt"><b>●</b> ishga tushirildi · 4-kun</p>
+        <p class="t-prompt" data-i18n="term.1"><b>&gt;</b> Do'konim uchun Telegram bot kerak: katalog, savat va Click orqali to'lov.</p>
+        <p class="t-dim" data-i18n="term.2">  talablar tahlil qilinmoqda…</p>
+        <p class="t-ok" data-i18n="term.3">✓ spetsifikatsiya: 6 ekran, 3 jadval</p>
+        <p class="t-ok" data-i18n="term.4">✓ kod yozildi: bot, admin panel, API</p>
+        <p class="t-ok" data-i18n="term.5">✓ 42 ta test o'tdi</p>
+        <p class="t-ok" data-i18n="term.6">✓ Click to'lov sandbox'da tekshirildi</p>
+        <p class="t-prompt" data-i18n="term.7"><b>●</b> ishga tushirildi · 4-kun</p>
       </div>
     </div>
   </header>
 
   <section>
     <div class="sec-head">
-      <div class="kicker">Farq</div>
-      <h2>Nima o'zgardi?</h2>
-      <p>Sun'iy intellekt muntazam kodni yozadi. Muhandis vaqti arxitektura, xavfsizlik va sifatga sarflanadi.</p>
+      <div class="kicker" data-i18n="cmp.kicker">Farq</div>
+      <h2 data-i18n="cmp.title">Nima o'zgardi?</h2>
+      <p data-i18n="cmp.lead">Sun'iy intellekt muntazam kodni yozadi. Muhandis vaqti arxitektura, xavfsizlik va sifatga sarflanadi.</p>
     </div>
     <div class="compare">
       <div>
-        <h3>An'anaviy usul</h3>
+        <h3 data-i18n="cmp.old">An'anaviy usul</h3>
         <dl>
-          <div><dt>MVP muddati</dt><dd>2–4 oy</dd></div>
-          <div><dt>Jamoa</dt><dd>4–6 dasturchi</dd></div>
-          <div><dt>Birinchi demo</dt><dd>bir necha hafta</dd></div>
+          <div><dt data-i18n="cmp.mvp">MVP muddati</dt><dd data-i18n="cmp.v1">2–4 oy</dd></div>
+          <div><dt data-i18n="cmp.team">Jamoa</dt><dd data-i18n="cmp.v2">4–6 dasturchi</dd></div>
+          <div><dt data-i18n="cmp.demo">Birinchi demo</dt><dd data-i18n="cmp.v3">bir necha hafta</dd></div>
         </dl>
       </div>
       <div class="new">
-        <h3>AI bilan</h3>
+        <h3 data-i18n="cmp.new">AI bilan</h3>
         <dl>
-          <div><dt>MVP muddati</dt><dd>1–3 hafta</dd></div>
-          <div><dt>Jamoa</dt><dd>1–2 muhandis + AI</dd></div>
-          <div><dt>Birinchi demo</dt><dd>2–3 kun</dd></div>
+          <div><dt data-i18n="cmp.mvp">MVP muddati</dt><dd data-i18n="cmp.v4">1–3 hafta</dd></div>
+          <div><dt data-i18n="cmp.team">Jamoa</dt><dd data-i18n="cmp.v5">1–2 muhandis + AI</dd></div>
+          <div><dt data-i18n="cmp.demo">Birinchi demo</dt><dd data-i18n="cmp.v6">2–3 kun</dd></div>
         </dl>
       </div>
     </div>
@@ -328,86 +343,86 @@ footer .wrap { padding-block: 32px; color: var(--subtle); font-size: .88rem; dis
 
   <section id="loyihalar">
     <div class="sec-head">
-      <div class="kicker">Loyihalar</div>
-      <h2>AI yordamida yaratiladigan dasturlar</h2>
-      <p>Har bir loyiha real foydalanuvchilar uchun quriladi: testlar, monitoring va hujjatlar bilan.</p>
+      <div class="kicker" data-i18n="nav.projects">Loyihalar</div>
+      <h2 data-i18n="prj.title">AI yordamida yaratiladigan dasturlar</h2>
+      <p data-i18n="prj.lead">Har bir loyiha real foydalanuvchilar uchun quriladi: testlar, monitoring va hujjatlar bilan.</p>
     </div>
     <div class="bento">
       <article class="card wide feature">
         <span class="tag">Telegram bot</span>
-        <h3>Onlayn do'kon boti</h3>
-        <p>Katalog, savat, buyurtma holati va Click / Payme orqali to'lov. Admin uchun alohida panel.</p>
-        <div class="meta"><span>Python · PostgreSQL</span><b>~1 hafta</b></div>
+        <h3 data-i18n="p1.t">Onlayn do'kon boti</h3>
+        <p data-i18n="p1.d">Katalog, savat, buyurtma holati va Click / Payme orqali to'lov. Admin uchun alohida panel.</p>
+        <div class="meta"><span>Python · PostgreSQL</span><b data-i18n="w1">~1 hafta</b></div>
       </article>
       <article class="card">
         <span class="tag">CRM</span>
-        <h3>Mijozlar bilan ishlash tizimi</h3>
-        <p>Lidlar, vazifalar, qo'ng'iroqlar tarixi va hisobotlar. Rollar bo'yicha kirish huquqlari.</p>
-        <div class="meta"><span>Next.js · API</span><b>~3 hafta</b></div>
+        <h3 data-i18n="p2.t">Mijozlar bilan ishlash tizimi</h3>
+        <p data-i18n="p2.d">Lidlar, vazifalar, qo'ng'iroqlar tarixi va hisobotlar. Rollar bo'yicha kirish huquqlari.</p>
+        <div class="meta"><span>Next.js · API</span><b data-i18n="w3">~3 hafta</b></div>
       </article>
       <article class="card">
-        <span class="tag">AI yordamchi</span>
-        <h3>Hujjatlar bo'yicha chat-bot</h3>
-        <p>Kompaniya hujjatlarini o'qiydi va xodimlar savoliga manba bilan javob beradi.</p>
-        <div class="meta"><span>LLM · vektor qidiruv</span><b>~2 hafta</b></div>
+        <span class="tag" data-i18n="p3.tag">AI yordamchi</span>
+        <h3 data-i18n="p3.t">Hujjatlar bo'yicha chat-bot</h3>
+        <p data-i18n="p3.d">Kompaniya hujjatlarini o'qiydi va xodimlar savoliga manba bilan javob beradi.</p>
+        <div class="meta"><span data-i18n="p3.m">LLM · vektor qidiruv</span><b data-i18n="w2">~2 hafta</b></div>
       </article>
       <article class="card wide">
-        <span class="tag">Ta'lim</span>
-        <h3>Elektron jurnal</h3>
-        <p>Baholar, davomat va ota-onalarga avtomatik xabarnomalar. Mobil telefonda qulay.</p>
-        <div class="meta"><span>Veb-ilova</span><b>~2 hafta</b></div>
+        <span class="tag" data-i18n="p4.tag">Ta'lim</span>
+        <h3 data-i18n="p4.t">Elektron jurnal</h3>
+        <p data-i18n="p4.d">Baholar, davomat va ota-onalarga avtomatik xabarnomalar. Mobil telefonda qulay.</p>
+        <div class="meta"><span data-i18n="p4.m">Veb-ilova</span><b data-i18n="w2">~2 hafta</b></div>
       </article>
       <article class="card">
-        <span class="tag">Biznes</span>
-        <h3>Ombor va savdo hisobi</h3>
-        <p>Qoldiqlar, kirim-chiqim, kassa va kunlik hisobot Excel'ga eksport bilan.</p>
-        <div class="meta"><span>Veb + mobil</span><b>~3 hafta</b></div>
+        <span class="tag" data-i18n="p5.tag">Biznes</span>
+        <h3 data-i18n="p5.t">Ombor va savdo hisobi</h3>
+        <p data-i18n="p5.d">Qoldiqlar, kirim-chiqim, kassa va kunlik hisobot Excel'ga eksport bilan.</p>
+        <div class="meta"><span data-i18n="p5.m">Veb + mobil</span><b data-i18n="w3">~3 hafta</b></div>
       </article>
       <article class="card wide">
         <span class="tag">Landing</span>
-        <h3>Sotuv sahifasi</h3>
-        <p>Mahsulot yoki xizmat uchun tez yuklanadigan sahifa, ariza formasi va analitika.</p>
-        <div class="meta"><span>HTML · CSS</span><b>2–3 kun</b></div>
+        <h3 data-i18n="p6.t">Sotuv sahifasi</h3>
+        <p data-i18n="p6.d">Mahsulot yoki xizmat uchun tez yuklanadigan sahifa, ariza formasi va analitika.</p>
+        <div class="meta"><span>HTML · CSS</span><b data-i18n="cmp.v6">2–3 kun</b></div>
       </article>
     </div>
-    <p class="note">Muddatlar taxminiy namuna. Aniq muddat talablar ko'rib chiqilgandan keyin aytiladi.</p>
+    <p class="note" data-i18n="prj.note">Muddatlar taxminiy namuna. Aniq muddat talablar ko'rib chiqilgandan keyin aytiladi.</p>
   </section>
 
   <section id="jarayon">
     <div class="sec-head">
-      <div class="kicker">Jarayon</div>
-      <h2>Qanday ishlaymiz</h2>
-      <p>To'rt bosqich. Har bir bosqich oxirida siz natijani ko'rasiz va tasdiqlaysiz.</p>
+      <div class="kicker" data-i18n="nav.process">Jarayon</div>
+      <h2 data-i18n="proc.title">Qanday ishlaymiz</h2>
+      <p data-i18n="proc.lead">To'rt bosqich. Har bir bosqich oxirida siz natijani ko'rasiz va tasdiqlaysiz.</p>
     </div>
     <ol class="timeline">
-      <li><h3>G'oya</h3><p>Siz oddiy tilda nima kerakligini aytasiz. Biz savollar beramiz va talablarni aniqlaymiz.</p></li>
-      <li><h3>Spetsifikatsiya</h3><p>Ekranlar, ma'lumotlar va integratsiyalar yozma reja sifatida tasdiqlanadi.</p></li>
-      <li><h3>Qurish</h3><p>AI kod yozadi, muhandis tekshiradi. Har kuni yangi versiyani sinab ko'rasiz.</p></li>
-      <li><h3>Ishga tushirish</h3><p>Serverga joylash, domen, monitoring va qo'llab-quvvatlash.</p></li>
+      <li><h3 data-i18n="s1.t">G'oya</h3><p data-i18n="s1.d">Siz oddiy tilda nima kerakligini aytasiz. Biz savollar beramiz va talablarni aniqlaymiz.</p></li>
+      <li><h3 data-i18n="s2.t">Spetsifikatsiya</h3><p data-i18n="s2.d">Ekranlar, ma'lumotlar va integratsiyalar yozma reja sifatida tasdiqlanadi.</p></li>
+      <li><h3 data-i18n="s3.t">Qurish</h3><p data-i18n="s3.d">AI kod yozadi, muhandis tekshiradi. Har kuni yangi versiyani sinab ko'rasiz.</p></li>
+      <li><h3 data-i18n="s4.t">Ishga tushirish</h3><p data-i18n="s4.d">Serverga joylash, domen, monitoring va qo'llab-quvvatlash.</p></li>
     </ol>
   </section>
 
   <section id="savollar">
     <div class="sec-head">
-      <div class="kicker">Savollar</div>
-      <h2>Ko'p beriladigan savollar</h2>
+      <div class="kicker" data-i18n="nav.faq">Savollar</div>
+      <h2 data-i18n="faq.title">Ko'p beriladigan savollar</h2>
     </div>
     <div class="faq">
       <details>
-        <summary>AI yozgan kod ishonchlimi?</summary>
-        <p>Kodni muhandis ko'rib chiqadi, avtomatik testlar yoziladi va to'lov kabi muhim qismlar alohida tekshiriladi. AI tezlik beradi, sifat uchun javobgarlik esa bizda.</p>
+        <summary data-i18n="q1">AI yozgan kod ishonchlimi?</summary>
+        <p data-i18n="a1">Kodni muhandis ko'rib chiqadi, avtomatik testlar yoziladi va to'lov kabi muhim qismlar alohida tekshiriladi. AI tezlik beradi, sifat uchun javobgarlik esa bizda.</p>
       </details>
       <details>
-        <summary>Kod kimga tegishli bo'ladi?</summary>
-        <p>To'liq sizga. Loyiha oxirida manba kodi, hujjatlar va serverga kirish ma'lumotlarini topshiramiz.</p>
+        <summary data-i18n="q2">Kod kimga tegishli bo'ladi?</summary>
+        <p data-i18n="a2">To'liq sizga. Loyiha oxirida manba kodi, hujjatlar va serverga kirish ma'lumotlarini topshiramiz.</p>
       </details>
       <details>
-        <summary>Keyinchalik o'zgartirish kiritsa bo'ladimi?</summary>
-        <p>Ha. Kod tushunarli tuzilishda yoziladi, shuning uchun yangi funksiyalarni qo'shish ham tez.</p>
+        <summary data-i18n="q3">Keyinchalik o'zgartirish kiritsa bo'ladimi?</summary>
+        <p data-i18n="a3">Ha. Kod tushunarli tuzilishda yoziladi, shuning uchun yangi funksiyalarni qo'shish ham tez.</p>
       </details>
       <details>
-        <summary>Narxi qancha?</summary>
-        <p>Loyiha hajmiga bog'liq. Talablarni ko'rib chiqib, bepul baho va muddat aytamiz.</p>
+        <summary data-i18n="q4">Narxi qancha?</summary>
+        <p data-i18n="a4">Loyiha hajmiga bog'liq. Talablarni ko'rib chiqib, bepul baho va muddat aytamiz.</p>
       </details>
     </div>
   </section>
@@ -415,19 +430,19 @@ footer .wrap { padding-block: 32px; color: var(--subtle); font-size: .88rem; dis
   <section id="aloqa">
     <div class="contact">
       <div>
-        <div class="kicker">Aloqa</div>
-        <h2>G'oyangizni yozib qoldiring</h2>
-        <p>Bir-ikki gap yetarli. 24 soat ichida javob beramiz va taxminiy reja yuboramiz.</p>
+        <div class="kicker" data-i18n="ct.kicker">Aloqa</div>
+        <h2 data-i18n="ct.title">G'oyangizni yozib qoldiring</h2>
+        <p data-i18n="ct.lead">Bir-ikki gap yetarli. 24 soat ichida javob beramiz va taxminiy reja yuboramiz.</p>
       </div>
       <form id="lead-form">
-        <label for="f-name">Ismingiz</label>
+        <label for="f-name" data-i18n="f.name">Ismingiz</label>
         <input id="f-name" name="name" required autocomplete="name">
-        <label for="f-phone">Telefon yoki Telegram</label>
+        <label for="f-phone" data-i18n="f.phone">Telefon yoki Telegram</label>
         <input id="f-phone" name="phone" required placeholder="+998 90 123 45 67">
-        <label for="f-idea">Qanday dastur kerak?</label>
-        <textarea id="f-idea" name="idea" placeholder="Masalan: kafe uchun buyurtma qabul qiladigan bot"></textarea>
-        <button class="btn btn-primary" type="submit">Yuborish →</button>
-        <p class="ok-msg" id="ok-msg" hidden>Rahmat! Arizangiz qabul qilindi.</p>
+        <label for="f-idea" data-i18n="f.idea">Qanday dastur kerak?</label>
+        <textarea id="f-idea" name="idea" placeholder="Masalan: kafe uchun buyurtma qabul qiladigan bot" data-i18n-placeholder="f.idea.ph"></textarea>
+        <button class="btn btn-primary" type="submit" data-i18n="f.send">Yuborish →</button>
+        <p class="ok-msg" id="ok-msg" hidden data-i18n="f.ok">Rahmat! Arizangiz qabul qilindi.</p>
       </form>
     </div>
   </section>
@@ -436,7 +451,7 @@ footer .wrap { padding-block: 32px; color: var(--subtle); font-size: .88rem; dis
 <footer>
   <div class="wrap">
     <span>© 2026 promptdan</span>
-    <span>Sun'iy intellekt bilan yaratilgan dasturlar</span>
+    <span data-i18n="ft.tag">Sun'iy intellekt bilan yaratilgan dasturlar</span>
   </div>
 </footer>
 
@@ -487,6 +502,240 @@ footer .wrap { padding-block: 32px; color: var(--subtle); font-size: .88rem; dis
     });
     document.addEventListener('click', function (e) { if (!menu.hidden && !e.target.closest('.theme')) close(false); });
     sync();
+  })();
+
+  (function () {
+    var I18N = {
+"en": {
+"nav.projects": "Projects",
+"nav.process": "Process",
+"nav.faq": "FAQ",
+"nav.contact": "Contact",
+"hero.pill": "<i></i>AI-powered software development",
+"hero.title": "Describe your idea. We turn it into <em>working software</em>.",
+"hero.lead": "Websites, Telegram bots, CRMs and payment systems. AI writes the code fast; an experienced engineer reviews every line and ships it.",
+"hero.cta": "Start a project →",
+"hero.cta2": "See examples",
+"term.1": "<b>&gt;</b> I need a Telegram bot for my shop: catalog, cart and Click payments.",
+"term.2": "  analyzing requirements…",
+"term.3": "✓ spec: 6 screens, 3 tables",
+"term.4": "✓ code written: bot, admin panel, API",
+"term.5": "✓ 42 tests passed",
+"term.6": "✓ Click payment verified in sandbox",
+"term.7": "<b>●</b> launched · day 4",
+"cmp.kicker": "Difference",
+"cmp.title": "What changed?",
+"cmp.lead": "AI writes the routine code. Engineering time goes to architecture, security and quality.",
+"cmp.old": "Traditional",
+"cmp.new": "With AI",
+"cmp.mvp": "MVP timeline",
+"cmp.team": "Team",
+"cmp.demo": "First demo",
+"cmp.v1": "2–4 months",
+"cmp.v2": "4–6 developers",
+"cmp.v3": "several weeks",
+"cmp.v4": "1–3 weeks",
+"cmp.v5": "1–2 engineers + AI",
+"cmp.v6": "2–3 days",
+"prj.title": "Software we build with AI",
+"prj.lead": "Every project is built for real users, with tests, monitoring and documentation.",
+"p1.t": "Online store bot",
+"p1.d": "Catalog, cart, order status and Click / Payme payments. A separate admin panel.",
+"w1": "~1 week",
+"p2.t": "Customer relationship system",
+"p2.d": "Leads, tasks, call history and reports. Role-based access control.",
+"w3": "~3 weeks",
+"p3.tag": "AI assistant",
+"p3.t": "Document Q&amp;A chatbot",
+"p3.d": "Reads company documents and answers staff questions with sources.",
+"p3.m": "LLM · vector search",
+"w2": "~2 weeks",
+"p4.tag": "Education",
+"p4.t": "Electronic gradebook",
+"p4.d": "Grades, attendance and automatic notifications to parents. Mobile-friendly.",
+"p4.m": "Web app",
+"p5.tag": "Business",
+"p5.t": "Inventory and sales tracking",
+"p5.d": "Stock levels, in/out movements, cash desk and daily reports with Excel export.",
+"p5.m": "Web + mobile",
+"p6.t": "Sales landing page",
+"p6.d": "A fast-loading page for a product or service, with a lead form and analytics.",
+"prj.note": "Timelines are rough examples. We give an exact estimate after reviewing requirements.",
+"proc.title": "How we work",
+"proc.lead": "Four stages. At the end of each one you see the result and approve it.",
+"s1.t": "Idea",
+"s1.d": "You tell us what you need in plain words. We ask questions and pin down requirements.",
+"s2.t": "Specification",
+"s2.d": "Screens, data and integrations are approved as a written plan.",
+"s3.t": "Build",
+"s3.d": "AI writes the code, an engineer reviews it. You try a new version every day.",
+"s4.t": "Launch",
+"s4.d": "Server deployment, domain, monitoring and support.",
+"faq.title": "Frequently asked questions",
+"q1": "Is AI-written code reliable?",
+"a1": "An engineer reviews the code, automated tests are written, and critical parts like payments are checked separately. AI brings speed; responsibility for quality stays with us.",
+"q2": "Who owns the code?",
+"a2": "You do, fully. At the end we hand over the source code, documentation and server access.",
+"q3": "Can it be changed later?",
+"a3": "Yes. The code is cleanly structured, so adding new features is fast too.",
+"q4": "How much does it cost?",
+"a4": "It depends on scope. We review your requirements and give a free estimate and timeline.",
+"ct.kicker": "Contact",
+"ct.title": "Tell us your idea",
+"ct.lead": "A sentence or two is enough. We reply within 24 hours with a rough plan.",
+"f.name": "Your name",
+"f.phone": "Phone or Telegram",
+"f.idea": "What do you need built?",
+"f.send": "Send →",
+"f.ok": "Thanks! Your request has been received.",
+"ft.tag": "Software built with AI",
+"theme.light": "Light",
+"theme.dark": "Dark",
+"theme.system": "System",
+"theme.aria": "Choose theme",
+"term.aria": "Example of building software from a prompt",
+"f.idea.ph": "For example: an ordering bot for a cafe"
+},
+"ru": {
+"nav.projects": "Проекты",
+"nav.process": "Процесс",
+"nav.faq": "Вопросы",
+"nav.contact": "Связаться",
+"hero.pill": "<i></i>Разработка с искусственным интеллектом",
+"hero.title": "Опишите идею. Мы превратим её в <em>работающую программу</em>.",
+"hero.lead": "Сайты, Telegram-боты, CRM и платёжные системы. ИИ быстро пишет код, а опытный инженер проверяет каждую строку и запускает проект.",
+"hero.cta": "Начать проект →",
+"hero.cta2": "Смотреть примеры",
+"term.1": "<b>&gt;</b> Нужен Telegram-бот для магазина: каталог, корзина и оплата через Click.",
+"term.2": "  анализ требований…",
+"term.3": "✓ спецификация: 6 экранов, 3 таблицы",
+"term.4": "✓ код написан: бот, админ-панель, API",
+"term.5": "✓ 42 теста пройдено",
+"term.6": "✓ оплата Click проверена в песочнице",
+"term.7": "<b>●</b> запущено · день 4",
+"cmp.kicker": "Разница",
+"cmp.title": "Что изменилось?",
+"cmp.lead": "ИИ пишет рутинный код. Время инженера уходит на архитектуру, безопасность и качество.",
+"cmp.old": "Традиционно",
+"cmp.new": "С ИИ",
+"cmp.mvp": "Срок MVP",
+"cmp.team": "Команда",
+"cmp.demo": "Первое демо",
+"cmp.v1": "2–4 месяца",
+"cmp.v2": "4–6 разработчиков",
+"cmp.v3": "несколько недель",
+"cmp.v4": "1–3 недели",
+"cmp.v5": "1–2 инженера + ИИ",
+"cmp.v6": "2–3 дня",
+"prj.title": "Программы, которые мы создаём с ИИ",
+"prj.lead": "Каждый проект создаётся для реальных пользователей: с тестами, мониторингом и документацией.",
+"p1.t": "Бот интернет-магазина",
+"p1.d": "Каталог, корзина, статус заказа и оплата через Click / Payme. Отдельная админ-панель.",
+"w1": "~1 неделя",
+"p2.t": "Система работы с клиентами",
+"p2.d": "Лиды, задачи, история звонков и отчёты. Права доступа по ролям.",
+"w3": "~3 недели",
+"p3.tag": "ИИ-ассистент",
+"p3.t": "Чат-бот по документам",
+"p3.d": "Читает документы компании и отвечает на вопросы сотрудников со ссылкой на источник.",
+"p3.m": "LLM · векторный поиск",
+"w2": "~2 недели",
+"p4.tag": "Образование",
+"p4.t": "Электронный журнал",
+"p4.d": "Оценки, посещаемость и автоматические уведомления родителям. Удобно на телефоне.",
+"p4.m": "Веб-приложение",
+"p5.tag": "Бизнес",
+"p5.t": "Учёт склада и продаж",
+"p5.d": "Остатки, приход-расход, касса и ежедневный отчёт с экспортом в Excel.",
+"p5.m": "Веб + мобильное",
+"p6.t": "Продающая страница",
+"p6.d": "Быстрая страница для товара или услуги с формой заявки и аналитикой.",
+"prj.note": "Сроки примерные. Точный срок назовём после изучения требований.",
+"proc.title": "Как мы работаем",
+"proc.lead": "Четыре этапа. В конце каждого вы видите результат и утверждаете его.",
+"s1.t": "Идея",
+"s1.d": "Вы простыми словами рассказываете, что нужно. Мы задаём вопросы и уточняем требования.",
+"s2.t": "Спецификация",
+"s2.d": "Экраны, данные и интеграции утверждаются в виде письменного плана.",
+"s3.t": "Разработка",
+"s3.d": "ИИ пишет код, инженер проверяет. Каждый день вы тестируете новую версию.",
+"s4.t": "Запуск",
+"s4.d": "Размещение на сервере, домен, мониторинг и поддержка.",
+"faq.title": "Частые вопросы",
+"q1": "Можно ли доверять коду, написанному ИИ?",
+"a1": "Код проверяет инженер, пишутся автотесты, а критичные части вроде оплаты проверяются отдельно. ИИ даёт скорость, а ответственность за качество — на нас.",
+"q2": "Кому принадлежит код?",
+"a2": "Полностью вам. В конце проекта передаём исходный код, документацию и доступы к серверу.",
+"q3": "Можно ли потом вносить изменения?",
+"a3": "Да. Код имеет понятную структуру, поэтому новые функции добавляются быстро.",
+"q4": "Сколько это стоит?",
+"a4": "Зависит от объёма. Изучим требования и бесплатно назовём цену и срок.",
+"ct.kicker": "Контакты",
+"ct.title": "Расскажите о своей идее",
+"ct.lead": "Достаточно пары предложений. Ответим в течение 24 часов и пришлём примерный план.",
+"f.name": "Ваше имя",
+"f.phone": "Телефон или Telegram",
+"f.idea": "Какая программа нужна?",
+"f.send": "Отправить →",
+"f.ok": "Спасибо! Заявка принята.",
+"ft.tag": "Программы, созданные с ИИ",
+"theme.light": "Светлая",
+"theme.dark": "Тёмная",
+"theme.system": "Как в системе",
+"theme.aria": "Выбрать тему",
+"term.aria": "Пример создания программы по промпту",
+"f.idea.ph": "Например: бот для приёма заказов в кафе"
+}
+};
+    var META = {"en": {"title": "From Prompt to Product", "desc": "Websites, Telegram bots, CRMs and payment systems — AI writes, an engineer reviews."}, "ru": {"title": "От промпта до продукта", "desc": "Сайты, Telegram-боты, CRM и платёжные системы — пишет ИИ, проверяет инженер."}};
+    var root = document.documentElement;
+    var uz = { html: {}, attr: {}, title: document.title, desc: '' };
+    var descEl = document.querySelector('meta[name="description"]');
+    if (descEl) uz.desc = descEl.content;
+    var textEls = document.querySelectorAll('[data-i18n]');
+    var attrNames = ['placeholder', 'aria-label'];
+    textEls.forEach(function (el) { uz.html[el.dataset.i18n] = el.innerHTML; });
+    attrNames.forEach(function (a) {
+      document.querySelectorAll('[data-i18n-' + a + ']').forEach(function (el) { uz.attr[el.getAttribute('data-i18n-' + a)] = el.getAttribute(a); });
+    });
+
+    var btn = document.getElementById('lang-btn');
+    var menu = document.getElementById('lang-menu');
+    var items = menu.querySelectorAll('[data-lang]');
+    var code = document.getElementById('lang-code');
+
+    function apply(lang) {
+      var d = I18N[lang];
+      textEls.forEach(function (el) { var k = el.dataset.i18n; el.innerHTML = d && d[k] != null ? d[k] : uz.html[k]; });
+      attrNames.forEach(function (a) {
+        document.querySelectorAll('[data-i18n-' + a + ']').forEach(function (el) {
+          var k = el.getAttribute('data-i18n-' + a); el.setAttribute(a, d && d[k] != null ? d[k] : uz.attr[k]);
+        });
+      });
+      document.title = META[lang] ? META[lang].title : uz.title;
+      if (descEl) descEl.content = META[lang] ? META[lang].desc : uz.desc;
+      root.lang = lang;
+      code.textContent = lang.toUpperCase();
+      items.forEach(function (it) { it.setAttribute('aria-checked', String(it.dataset.lang === lang)); });
+    }
+    function save(lang) { try { if (lang === 'uz') localStorage.removeItem('lang'); else localStorage.setItem('lang', lang); } catch (e) {} }
+    function open() { menu.hidden = false; btn.setAttribute('aria-expanded', 'true'); (menu.querySelector('[aria-checked="true"]') || items[0]).focus(); }
+    function close(focusBtn) { menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); if (focusBtn) btn.focus(); }
+
+    btn.addEventListener('click', function () { menu.hidden ? open() : close(false); });
+    items.forEach(function (it) { it.addEventListener('click', function () { apply(it.dataset.lang); save(it.dataset.lang); close(true); }); });
+    menu.addEventListener('keydown', function (e) {
+      var list = Array.prototype.slice.call(items), i = list.indexOf(document.activeElement);
+      if (e.key === 'ArrowDown') { e.preventDefault(); list[(i + 1) % list.length].focus(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); list[(i - 1 + list.length) % list.length].focus(); }
+      else if (e.key === 'Escape') { close(true); }
+      else if (e.key === 'Tab') { close(false); }
+    });
+    document.addEventListener('click', function (e) { if (!menu.hidden && !e.target.closest('.lang')) close(false); });
+
+    var start = 'uz';
+    try { var saved = localStorage.getItem('lang'); if (saved === 'ru' || saved === 'en') start = saved; } catch (e) {}
+    if (start !== 'uz') apply(start);
   })();
 </script>
 </body>
